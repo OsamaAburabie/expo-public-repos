@@ -1,4 +1,4 @@
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, FlatList } from "react-native";
 import React from "react";
 import RepoCard from "../../components/RepoCard";
 import CustomContainer from "@components/CustomContainer";
@@ -7,7 +7,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { searchRepos } from "@api/Repositories/searchRepos";
 import { Repository } from "@customTypes/index";
-import { FlashList } from "@shopify/flash-list";
 import debounce from "lodash.debounce";
 
 type Props = {};
@@ -73,8 +72,7 @@ const Repositories = ({}: Props) => {
             <ActivityIndicator size={"large"} />
           </YStack>
         ) : (
-          <FlashList
-            estimatedItemSize={200}
+          <FlatList
             showsVerticalScrollIndicator={false}
             data={data?.pages.map((page) => page).flat() ?? []}
             renderItem={renderItems}

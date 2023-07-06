@@ -3,7 +3,8 @@ import { Account, LocationData } from "./types";
 
 const initialState: Account = {
   name: "Osama",
-  avatar_url: "https://avatars.githubusercontent.com/u/7525670?v=4",
+  avatar_url:
+    "https://lh3.googleusercontent.com/a/AAcHTtf5s1dkUkpHecth8PfzFTfS93ZTSYjd6PXbxSMDa0w99rw=s576-c-no",
   phone: "+962 770561718",
   country: null,
 };
@@ -15,9 +16,12 @@ const authSlice = createSlice({
     setCountry: (state, action: PayloadAction<LocationData>) => {
       state.country = action.payload;
     },
+    setAvatar: (state, action: PayloadAction<string>) => {
+      state.avatar_url = action.payload;
+    },
   },
 });
 
 export default authSlice.reducer;
 
-export const { setCountry } = authSlice.actions;
+export const { setCountry, setAvatar } = authSlice.actions;

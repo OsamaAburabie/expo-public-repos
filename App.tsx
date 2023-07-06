@@ -1,3 +1,5 @@
+import "react-native-gesture-handler";
+
 import { useFonts } from "expo-font";
 import { useColorScheme } from "react-native";
 import { TamaguiProvider, Theme } from "tamagui";
