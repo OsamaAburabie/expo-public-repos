@@ -11,24 +11,20 @@ import { useAppDispatch } from "@stores/index";
 import { setCountry } from "@stores/AuthReducer";
 import { LocationData } from "@stores/types";
 import * as SplashScreen from "expo-splash-screen";
+import { useQuery } from "@tanstack/react-query";
+import { getLocation } from "@api/Location/getLocation";
 
 const RootNavigation = () => {
   const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
   const dispatch = useAppDispatch();
-  const getCountryCode = useCallback(async () => {
-    try {
-      const res = await axios.get<LocationData>("https://ipapi.co/json/");
-      if (res?.data?.country_code) {
-        dispatch(setCountry(res.data));
-      }
-    } catch (e) {
-      // console.log(e)
-    }
-  }, []);
 
-  useEffect(() => {
-    getCountryCode();
-  }, [getCountryCode]);
+  useQuery({
+    queryKey: ["location"],
+    queryFn: getLocation,
+    onSuccess(data) {
+      dispatch(setCountry(data));
+    },
+  });
 
   const hideSplashScreen = () => {
     SplashScreen.hideAsync();
