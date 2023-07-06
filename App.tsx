@@ -1,13 +1,10 @@
 import { useFonts } from "expo-font";
-
-import { StatusBar } from "expo-status-bar";
-
 import { useColorScheme } from "react-native";
-
-import { Paragraph, TamaguiProvider, Theme, YStack } from "tamagui";
+import { TamaguiProvider, Theme } from "tamagui";
 import config from "./tamagui.config";
 import RootNavigation from "./src/navigation/RootNavigation";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 export default function App() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -18,13 +15,18 @@ export default function App() {
   if (!loaded) {
     return null;
   }
+
+  const queryClient = new QueryClient();
+
   return (
-    <SafeAreaProvider>
-      <TamaguiProvider config={config}>
-        <Theme name={colorScheme === "dark" ? "dark" : "light"}>
-          <RootNavigation />
-        </Theme>
-      </TamaguiProvider>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+        <TamaguiProvider config={config}>
+          <Theme name={colorScheme === "dark" ? "dark" : "light"}>
+            <RootNavigation />
+          </Theme>
+        </TamaguiProvider>
+      </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }

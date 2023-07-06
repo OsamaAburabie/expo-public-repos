@@ -64,4 +64,13 @@ export interface Repository {
   labels_url: string;
   releases_url: string;
   deployments_url: string;
+  stargazers_count: number;
+  open_issues_count: number;
+  forks_count: number;
 }
+
+export type SearchReposResponse = {
+  total_count: number;
+  incomplete_results: boolean;
+  items: Repository[];
+};

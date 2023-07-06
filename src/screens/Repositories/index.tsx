@@ -1,13 +1,36 @@
 import { FlatList, StyleSheet } from "react-native";
 import React from "react";
 import RepoCard from "../../components/RepoCard";
-import { styles, theme } from "../../constants/theme";
+import { styles } from "../../constants/theme";
 import CustomContainer from "@components/CustomContainer";
 import { Input, Stack, XStack, YStack } from "tamagui";
 import { Ionicons } from "@expo/vector-icons";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { searchRepos } from "../../api/Repositories/searchRepos";
 type Props = {};
 
 const Repositories = ({}: Props) => {
+  const [query, setQuery] = React.useState("open source");
+
+  const { data, isLoading, isFetching, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["searchRepos", query],
+      queryFn: ({ pageParam = 1 }) => searchRepos(query, pageParam),
+      getNextPageParam: (_, pages) => {
+        const currentPage = pages.length; // Track the current page using the length of received pages
+        const nextPage = currentPage + 1;
+        return nextPage;
+      },
+    });
+
+  const onReachEnd = () => {
+    if (isLoading || isFetching) return;
+
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
+
   return (
     <CustomContainer noScrollView>
       <YStack f={1}>
@@ -24,6 +47,8 @@ const Repositories = ({}: Props) => {
           </Stack>
 
           <Input
+            value={query}
+            onChangeText={setQuery}
             unstyled
             height={"100%"}
             f={1}
@@ -36,23 +61,14 @@ const Repositories = ({}: Props) => {
         <FlatList
           contentContainerStyle={styles.gap10}
           showsVerticalScrollIndicator={false}
-          data={[1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8]}
-          renderItem={({ item }) => <RepoCard />}
-          onEndReached={() => {
-            console.log("onEndReached");
-          }}
+          data={data?.pages.map((page) => page).flat() ?? []}
+          renderItem={({ item }) => <RepoCard repo={item} />}
+          onEndReached={onReachEnd}
           ListFooterComponent={<YStack height={1} />}
         />
       </YStack>
     </CustomContainer>
   );
 };
-
-const style = StyleSheet.create({
-  container: {
-    backgroundColor: theme.BACKGROUND,
-    paddingHorizontal: 16,
-  },
-});
 
 export default Repositories;

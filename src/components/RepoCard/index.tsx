@@ -1,6 +1,5 @@
 import React from "react";
 import { Repository } from "../../types";
-import { theme } from "../../constants/theme";
 import { Image, Text, XStack, YStack } from "tamagui";
 
 type Props = {
@@ -16,30 +15,26 @@ const RepoCard = ({ repo }: Props) => {
       borderRadius={8}
     >
       <Text fontSize={13} fontWeight={"700"}>
-        Repo NAME
+        {repo.name}
       </Text>
       <XStack gap={4} marginVertical={8} alignItems="center">
         <Image
           source={{
-            uri: "https://avatars.githubusercontent.com/u/4?v=4",
+            uri: repo.owner.avatar_url,
           }}
           height={18}
           width={18}
           borderRadius={9}
         />
-        <Text fontSize={12}>path/repo name</Text>
+        <Text fontSize={12}>{repo.full_name}</Text>
       </XStack>
 
-      <Text fontSize={12}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam Lorem
-        ipsum dolor sit amet consectetur adipisicing elit. Quisquam Lorem ipsum
-        dolor sit amet consectetur adipisicing elit. Quisquam Lorem ipsum dolor
-      </Text>
+      <Text fontSize={12}>{repo.description}</Text>
 
       <XStack justifyContent="space-between" marginVertical={10}>
-        <Text fontSize={12}>⭐️ 100</Text>
-        <Text fontSize={12}>⚠️ 100</Text>
-        <Text fontSize={12}>🍴 100</Text>
+        <Text fontSize={12}>⭐️ {repo.stargazers_count}</Text>
+        <Text fontSize={12}>⚠️ {repo.open_issues_count}</Text>
+        <Text fontSize={12}>🍴 {repo.forks_count}</Text>
       </XStack>
     </YStack>
   );
