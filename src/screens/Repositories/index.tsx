@@ -8,6 +8,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { searchRepos } from "@api/Repositories/searchRepos";
 import { Repository } from "@customTypes/index";
 import { FlashList } from "@shopify/flash-list";
+import debounce from "lodash.debounce";
+
 type Props = {};
 
 const Repositories = ({}: Props) => {
@@ -36,6 +38,10 @@ const Repositories = ({}: Props) => {
     return <RepoCard repo={item} />;
   };
 
+  const onQueryChange = debounce((text: string) => {
+    setQuery(text);
+  }, 300);
+
   return (
     <CustomContainer noScrollView>
       <YStack f={1}>
@@ -52,8 +58,7 @@ const Repositories = ({}: Props) => {
           </Stack>
 
           <Input
-            value={query}
-            onChangeText={setQuery}
+            onChangeText={onQueryChange}
             unstyled
             height={"100%"}
             f={1}
