@@ -10,6 +10,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { persistedStore, store } from "@stores/index";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import * as SplashScreen from "expo-splash-screen";
+
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({

@@ -10,6 +10,7 @@ import axios from "axios";
 import { useAppDispatch } from "@stores/index";
 import { setCountry } from "@stores/AuthReducer";
 import { LocationData } from "@stores/types";
+import * as SplashScreen from "expo-splash-screen";
 
 const RootNavigation = () => {
   const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
@@ -29,7 +30,10 @@ const RootNavigation = () => {
     getCountryCode();
   }, [getCountryCode]);
 
-  const hideSplashScreen = () => {};
+  const hideSplashScreen = () => {
+    SplashScreen.hideAsync();
+  };
+
   return (
     <>
       <NavigationContainer theme={DarkTheme} onReady={hideSplashScreen}>
