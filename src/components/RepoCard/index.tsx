@@ -1,6 +1,8 @@
 import React from "react";
 import { Repository } from "../../types";
-import { Image, Text, XStack, YStack } from "tamagui";
+import { Text, XStack, YStack } from "tamagui";
+import { Image } from "expo-image";
+import { StyleSheet } from "react-native";
 
 type Props = {
   repo: Repository;
@@ -13,6 +15,7 @@ const RepoCard = ({ repo }: Props) => {
       paddingHorizontal={16}
       paddingVertical={8}
       borderRadius={8}
+      mb={8}
     >
       <Text fontSize={13} fontWeight={"700"}>
         {repo.name}
@@ -22,9 +25,7 @@ const RepoCard = ({ repo }: Props) => {
           source={{
             uri: repo.owner.avatar_url,
           }}
-          height={18}
-          width={18}
-          borderRadius={9}
+          style={styles.avatar}
         />
         <Text fontSize={12}>{repo.full_name}</Text>
       </XStack>
@@ -40,4 +41,11 @@ const RepoCard = ({ repo }: Props) => {
   );
 };
 
+const styles = StyleSheet.create({
+  avatar: {
+    height: 18,
+    width: 18,
+    borderRadius: 9,
+  },
+});
 export default RepoCard;

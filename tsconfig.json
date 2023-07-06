@@ -23,6 +23,7 @@
       "@hooks/*": ["src/hooks/*"],
       "@constants/*": ["src/constants/*"],
       "@customTypes/*": ["src/types/*"],
+      "@api/*": ["src/api/*"],
       "@assets/*": ["assets/*"]
     }
   },

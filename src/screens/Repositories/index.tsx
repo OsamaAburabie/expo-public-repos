@@ -1,16 +1,17 @@
-import { FlatList, StyleSheet } from "react-native";
+import { ActivityIndicator } from "react-native";
 import React from "react";
 import RepoCard from "../../components/RepoCard";
-import { styles } from "../../constants/theme";
 import CustomContainer from "@components/CustomContainer";
 import { Input, Stack, XStack, YStack } from "tamagui";
 import { Ionicons } from "@expo/vector-icons";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { searchRepos } from "../../api/Repositories/searchRepos";
+import { searchRepos } from "@api/Repositories/searchRepos";
+import { Repository } from "@customTypes/index";
+import { FlashList } from "@shopify/flash-list";
 type Props = {};
 
 const Repositories = ({}: Props) => {
-  const [query, setQuery] = React.useState("open source");
+  const [query, setQuery] = React.useState("");
 
   const { data, isLoading, isFetching, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
@@ -29,6 +30,10 @@ const Repositories = ({}: Props) => {
     if (hasNextPage) {
       fetchNextPage();
     }
+  };
+
+  const renderItems = ({ item }: { item: Repository }) => {
+    return <RepoCard repo={item} />;
   };
 
   return (
@@ -58,14 +63,20 @@ const Repositories = ({}: Props) => {
           />
         </XStack>
 
-        <FlatList
-          contentContainerStyle={styles.gap10}
-          showsVerticalScrollIndicator={false}
-          data={data?.pages.map((page) => page).flat() ?? []}
-          renderItem={({ item }) => <RepoCard repo={item} />}
-          onEndReached={onReachEnd}
-          ListFooterComponent={<YStack height={1} />}
-        />
+        {isLoading ? (
+          <YStack f={1} jc="center" ai="center">
+            <ActivityIndicator size={"large"} />
+          </YStack>
+        ) : (
+          <FlashList
+            estimatedItemSize={200}
+            showsVerticalScrollIndicator={false}
+            data={data?.pages.map((page) => page).flat() ?? []}
+            renderItem={renderItems}
+            onEndReached={onReachEnd}
+            ListFooterComponent={<YStack height={1} />}
+          />
+        )}
       </YStack>
     </CustomContainer>
   );

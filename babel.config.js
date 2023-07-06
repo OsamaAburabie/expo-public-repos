@@ -40,6 +40,7 @@ module.exports = function (api) {
             "@hooks": "./src/hooks",
             "@constants": "./src/constants",
             "@customTypes": "./src/types",
+            "@api": "./src/api",
             "@assets": "./assets",
           },
           extensions: [".js", ".jsx", ".ts", ".tsx"],
