@@ -63,7 +63,7 @@ const Repositories = ({}: Props) => {
             f={1}
             backgroundColor={"transparent"}
             color={"$white"}
-            placeholder="Search for coffee"
+            placeholder="Search for repositories"
           />
         </XStack>
 
