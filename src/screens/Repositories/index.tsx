@@ -74,7 +74,9 @@ const Repositories = ({}: Props) => {
             data={data?.pages.map((page) => page).flat() ?? []}
             renderItem={renderItems}
             onEndReached={onReachEnd}
-            ListFooterComponent={<YStack height={1} />}
+            ListFooterComponent={
+              <YStack py={15}>{isFetching && <ActivityIndicator />}</YStack>
+            }
           />
         )}
       </YStack>

@@ -7,15 +7,18 @@ import {
 import { RootStackParamList } from "./types";
 import AppStackNavigation from "./AppStack";
 import axios from "axios";
+import { useAppDispatch } from "@stores/index";
+import { setCountry } from "@stores/AuthReducer";
+import { LocationData } from "@stores/types";
 
 const RootNavigation = () => {
   const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
-
+  const dispatch = useAppDispatch();
   const getCountryCode = useCallback(async () => {
     try {
-      const res = await axios.get("https://ipapi.co/json/");
+      const res = await axios.get<LocationData>("https://ipapi.co/json/");
       if (res?.data?.country_code) {
-        console.log(res.data);
+        dispatch(setCountry(res.data));
       }
     } catch (e) {
       // console.log(e)

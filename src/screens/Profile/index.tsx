@@ -3,32 +3,30 @@ import CustomContainer from "@components/CustomContainer";
 import { Text, XStack, YStack } from "tamagui";
 import { Image } from "expo-image";
 import { StyleSheet } from "react-native";
+import { useAppSelector } from "@stores/index";
 
-type Props = {};
+const Profile = () => {
+  const account = useAppSelector((state) => state.authReducer);
 
-const Profile = ({}: Props) => {
   return (
     <CustomContainer withHeader headerTitle="Profile">
       <XStack jc="center">
         <YStack jc="center" ai="center" gap={10}>
-          <Image
-            source={"https://avatars.githubusercontent.com/u/7525670?v=4"}
-            style={styles.avatar}
-          />
-          <Text fontSize={20}>Osama</Text>
+          <Image source={account.avatar_url} style={styles.avatar} />
+          <Text fontSize={20}>{account.name}</Text>
         </YStack>
       </XStack>
 
       <YStack mt={40} gap={20}>
         <YStack bg={"$secondary"} padding={20} borderRadius={8}>
           <Text fontSize={12} fontWeight={"700"}>
-            +962 79 000 0000
+            {account.phone}
           </Text>
         </YStack>
 
         <YStack bg={"$secondary"} padding={20} borderRadius={8}>
           <Text fontSize={12} fontWeight={"700"}>
-            Jordan
+            {account.country.country_name}
           </Text>
         </YStack>
       </YStack>
